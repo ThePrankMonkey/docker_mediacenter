@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  plex:
+    # https://hub.docker.com/r/linuxserver/plex/
+    image: linuxserver/plex  
+    container_name: plex  
+    environment:
+      - VERSION=latest
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - config_plex:/config
+      - plex_movies:/data/movies
+      - plex_tv:/data/tv
+    ports:
+      - "32400:32400"
+      - "32400:32400/udp"
+      - "32469:32469"
+      - "32469:32469/udp"
+      - "5353:5353/udp"
+      - "1900:1900/udp"
+    mem_limit: 4096m
+    restart: unless-stopped
+
+  radarr:
+    # https://hub.docker.com/r/linuxserver/radarr/
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - config_radarr:/config
+      - plex_movies:/movies
+      - downloads:/downloads
+    ports:
+      - "7878:7878"
+    mem_limit: 4096m
+    restart: unless-stopped
+
+  sabnzbd:
+    # https://hub.docker.com/r/linuxserver/sabnzbd/
+    image: linuxserver/sabnzbd 
+    container_name: sabnzbd 
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - config_sabnzbd:/config
+      - downloads_incomplete:/incomplete-downloads
+      - downloads:/downloads
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    mem_limit: 4096m
+    restart: unless-stopped
+
+  sonarr:
+    # https://hub.docker.com/r/linuxserver/sonarr/
+    image: linuxserver/sonarr
+    args:
+    - PUID=1001
+    - PGID=1001
+    - TZ=America/New_York
+    container_name: sonarr
+    ports:
+    - "8989:8989"
+    volumes:
+      - config_sonarr:/config
+      - plex_tv:/tv
+      - downloads:/downloads
+    mem_limit: 4096m
+    restart: unless-stopped
+
+volumes:
+  config_plex:
+  config_radarr:
+  config_sabnzbd:
+  config_sonarr:
+  downloads:
+  downloads_incomplete:
+  plex_movies:
+  plex_tv:
