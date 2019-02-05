@@ -78,9 +78,29 @@ services:
 
 volumes:
   config_plex:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/configs/plex/
+      o: bind
   config_radarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/configs/radarr/
+      o: bind
   config_sabnzbd:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/configs/sabnzbd/
+      o: bind
   config_sonarr:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/configs/sonarr/
+      o: bind
   downloads:
   downloads_incomplete:
   plex_movies:
