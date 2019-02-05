@@ -59,13 +59,13 @@ services:
   sonarr:
     # https://hub.docker.com/r/linuxserver/sonarr/
     image: linuxserver/sonarr
-    args:
-    - PUID=1001
-    - PGID=1001
-    - TZ=America/New_York
     container_name: sonarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
     ports:
-    - "8989:8989"
+      - "8989:8989"
     volumes:
       - config_sonarr:/config
       - plex_tv:/tv
