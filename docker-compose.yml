@@ -6,9 +6,9 @@ services:
     image: linuxserver/heimdall
     container_name: heimdall
     environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
     volumes:
       - config_heimdall:/config
     ports:
@@ -22,9 +22,9 @@ services:
     container_name: plex  
     environment:
       - VERSION=latest
-      - PUID=1001
-      - PGID=1001
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
     volumes:
       - config_plex:/config
       - plex_movies:/data/movies
@@ -43,9 +43,9 @@ services:
     image: linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
     volumes:
       - config_radarr:/config
       - plex_movies:/movies
@@ -59,9 +59,9 @@ services:
     image: linuxserver/sabnzbd 
     container_name: sabnzbd 
     environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
     volumes:
       - config_sabnzbd:/config
       - downloads_incomplete:/incomplete-downloads
@@ -76,9 +76,9 @@ services:
     image: linuxserver/sonarr
     container_name: sonarr
     environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
     ports:
       - "8989:8989"
     volumes:
@@ -121,4 +121,14 @@ volumes:
   downloads:
   downloads_incomplete:
   plex_movies:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PLEX_PATH}/movies/
+      o: bind
   plex_tv:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PLEX_PATH}/tv/
+      o: bind
